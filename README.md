@@ -1,4 +1,6 @@
 # 📈 Stock Analysis & Forecasting Platform
+![Stock Analyzer Banner](assets/analysis.jpg)
+
 
 A modern, interactive stock market analytics and forecasting dashboard built using **Python** and **Streamlit**.
 
