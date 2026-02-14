@@ -1,5 +1,6 @@
 # 📈 Stock Analysis & Forecasting Platform
-![Stock Analyzer Banner](assets/analysis.jpg)
+<img src="assets/analysis.jpg" alt="Stock Analyzer Banner" width="100%" height="600">
+
 
 
 A modern, interactive stock market analytics and forecasting dashboard built using **Python** and **Streamlit**.
