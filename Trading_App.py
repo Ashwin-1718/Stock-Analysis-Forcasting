@@ -1,147 +1,274 @@
 import streamlit as st
 
-# Page Configuration
+# ────────────────────────────────────────────────
+# Page Config
+# ────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Stock Analysis & Forecasting",
+    page_title="StockVision • Analysis & Forecasting",
     page_icon="📈",
     layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-
-# Global Styling (Modern Fintech UI)
+# ────────────────────────────────────────────────
+# Modern Fintech + Glassmorphism Styling
+# ────────────────────────────────────────────────
 st.markdown("""
 <style>
-.main {
-    background-color: #0e1117;
-}
-.hero-title {
-    font-size: 52px;
-    font-weight: 800;
-    margin-bottom: 10px;
-}
-.hero-subtitle {
-    font-size: 20px;
-    color: #9CA3AF;
-    margin-bottom: 40px;
-}
-.card {
-    background: rgba(255,255,255,0.05);
-    padding: 25px;
-    border-radius: 18px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-    height: 100%;
-}
-.card h3 {
-    margin-bottom: 10px;
-}
-.card p {
-    color: #9CA3AF;
-}
-.section-title {
-    font-size: 32px;
-    font-weight: 700;
-    margin-top: 60px;
-    margin-bottom: 20px;
-}
-.footer {
-    color: #6B7280;
-    font-size: 14px;
-    margin-top: 80px;
-    text-align: center;
-}
+    /* Global */
+    .stApp {
+        background: linear-gradient(135deg, #0f172a 0%, #0e1117 100%);
+    }
+    .block-container {
+        padding-top: 2.5rem !important;
+        padding-bottom: 3rem !important;
+    }
+
+    /* Hero */
+    .hero-container {
+        text-align: center;
+        padding: 5rem 1rem 4rem;
+        background: linear-gradient(180deg, rgba(30,41,59,0.4) 0%, rgba(15,23,42,0) 100%);
+        border-radius: 24px;
+        margin-bottom: 3rem;
+    }
+    .hero-title {
+        font-size: 4.2rem;
+        font-weight: 800;
+        background: linear-gradient(90deg, #c084fc, #60a5fa, #38bdf8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 1rem;
+        line-height: 1.05;
+    }
+    .hero-subtitle {
+        font-size: 1.35rem;
+        color: #94a3b8;
+        max-width: 780px;
+        margin: 0 auto 2.5rem;
+        line-height: 1.6;
+    }
+
+    /* Cards */
+    .feature-card {
+        background: rgba(30, 41, 59, 0.45);
+        backdrop-filter: blur(12px);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 20px;
+        padding: 2rem 1.8rem;
+        height: 100%;
+        transition: all 0.28s ease;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    }
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.35);
+        border-color: rgba(139, 92, 246, 0.3);
+    }
+    .feature-icon {
+        font-size: 2.8rem;
+        margin-bottom: 1.2rem;
+        display: block;
+    }
+    .feature-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        color: #e2e8f0;
+    }
+    .feature-text {
+        color: #94a3b8;
+        line-height: 1.6;
+    }
+
+    /* Steps */
+    .step-card {
+        text-align: center;
+        position: relative;
+    }
+    .step-number {
+        width: 64px;
+        height: 64px;
+        background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        font-weight: 800;
+        margin: 0 auto 1.4rem;
+        box-shadow: 0 10px 25px rgba(59,130,246,0.35);
+    }
+    .step-title {
+        font-size: 1.4rem;
+        font-weight: 700;
+        margin-bottom: 0.8rem;
+    }
+
+    /* CTA */
+    .cta-button {
+        background: linear-gradient(90deg, #8b5cf6, #60a5fa);
+        color: white !important;
+        font-weight: 600;
+        padding: 1rem 2.2rem !important;
+        border-radius: 999px !important;
+        font-size: 1.15rem !important;
+        border: none !important;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 25px rgba(139,92,246,0.4) !important;
+        margin: 1.5rem 0.8rem;
+    }
+    .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(139,92,246,0.55) !important;
+    }
+
+    /* Section Titles */
+    .section-title {
+        font-size: 2.6rem;
+        font-weight: 800;
+        text-align: center;
+        margin: 5rem 0 3rem;
+        background: linear-gradient(90deg, #e0f2fe, #c084fc, #a5b4fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    /* Footer */
+    .footer {
+        text-align: center;
+        color: #64748b;
+        font-size: 0.95rem;
+        margin-top: 6rem;
+        padding: 2rem 0;
+        border-top: 1px solid rgba(255,255,255,0.08);
+    }
 </style>
 """, unsafe_allow_html=True)
 
+# ────────────────────────────────────────────────
 # Hero Section
-st.markdown(
-    """
-    <div>
-        <div class="hero-title">📈 Stock Analysis & Forecasting Platform</div>
-        <div class="hero-subtitle">
-            Analyze market trends, explore financial insights, and forecast stock prices
-            using data-driven models and interactive dashboards.
-        </div>
+# ────────────────────────────────────────────────
+st.markdown("""
+<div class="hero-container">
+    <div class="hero-title">StockVision</div>
+    <div class="hero-subtitle">
+        Advanced stock analysis, interactive visualizations<br>
+        and intelligent short-term price forecasting — all in one place.
     </div>
-    """,
-    unsafe_allow_html=True,
-)
+</div>
+""", unsafe_allow_html=True)
 
-# Feature Cards
-col1, col2, col3 = st.columns(3)
+# ────────────────────────────────────────────────
+# Features
+# ────────────────────────────────────────────────
+st.markdown('<div class="section-title">Powerful Features</div>', unsafe_allow_html=True)
+
+col1, col2, col3 = st.columns([1,1,1], gap="medium")
 
 with col1:
     st.markdown("""
-    <div class="card">
-        <h3>📊 Market Analysis</h3>
-        <p>
-        Explore historical stock prices, key financial metrics, and company fundamentals
-        through interactive visualizations.
+    <div class="feature-card">
+        <span class="feature-icon">📊</span>
+        <div class="feature-title">Deep Market Analysis</div>
+        <p class="feature-text">
+            Historical price trends, technical indicators, volume analysis,
+            moving averages, key financial ratios and company fundamentals.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
-    <div class="card">
-        <h3>📈 Price Forecasting</h3>
-        <p>
-        Predict future stock prices using time-series forecasting models like ARIMA,
-        designed for short-term trend analysis.
+    <div class="feature-card">
+        <span class="feature-icon">🧠</span>
+        <div class="feature-title">Smart Forecasting</div>
+        <p class="feature-text">
+            Time-series forecasting with ARIMA, Prophet & simple ML models.
+            Generate short-term price predictions with confidence intervals.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
 with col3:
     st.markdown("""
-    <div class="card">
-        <h3>⚡ Real-Time Data</h3>
-        <p>
-        Fetch live and historical market data directly from Yahoo Finance
-        for accurate and up-to-date insights.
+    <div class="feature-card">
+        <span class="feature-icon">⚡</span>
+        <div class="feature-title">Live Market Data</div>
+        <p class="feature-text">
+            Real-time & historical data from Yahoo Finance.
+            News sentiment, analyst ratings, insider activity & more.
         </p>
     </div>
     """, unsafe_allow_html=True)
 
-# How It Works Section
+# ────────────────────────────────────────────────
+# How It Works
+# ────────────────────────────────────────────────
 st.markdown('<div class="section-title">How It Works</div>', unsafe_allow_html=True)
 
-col1, col2, col3 = st.columns(3)
+col1, col2, col3 = st.columns(3, gap="large")
 
 with col1:
     st.markdown("""
-    <div class="card">
-        <h4>1️⃣ Select a Stock</h4>
-        <p>Enter a stock ticker symbol to retrieve real-time and historical market data.</p>
+    <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="step-title">Choose a Stock</div>
+        <p style="color:#94a3b8;">Enter any ticker symbol (e.g. AAPL, TSLA, NVDA)</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col2:
     st.markdown("""
-    <div class="card">
-        <h4>2️⃣ Analyze Trends</h4>
-        <p>Visualize price movements, key metrics, and company information.</p>
+    <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="step-title">Explore & Analyze</div>
+        <p style="color:#94a3b8;">Interactive charts, metrics, financials & news</p>
     </div>
     """, unsafe_allow_html=True)
 
 with col3:
     st.markdown("""
-    <div class="card">
-        <h4>3️⃣ Forecast Prices</h4>
-        <p>Use time-series models to forecast future stock price trends.</p>
+    <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="step-title">Forecast Future</div>
+        <p style="color:#94a3b8;">View predicted price trends & ranges</p>
     </div>
     """, unsafe_allow_html=True)
 
-
+# ────────────────────────────────────────────────
 # Call to Action
-st.markdown('<div class="section-title">Get Started</div>', unsafe_allow_html=True)
+# ────────────────────────────────────────────────
+st.markdown('<div style="text-align:center; margin: 5rem 0 3rem;">', unsafe_allow_html=True)
 
-st.info(
-    "👉 Use the sidebar to navigate to **Stock Analysis** or **Stock Prediction** and start exploring the market."
-)
+col_left, col_center, col_right = st.columns([1,2,1])
 
-# Footer
+with col_center:
+    st.markdown("""
+    <a href="#Stock Analysis" target="_self">
+        <div class="cta-button">Start Analyzing Stocks →</div>
+    </a>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <a href="#Stock Prediction" target="_self">
+        <div class="cta-button" style="background: linear-gradient(90deg, #ec4899, #f43f5e);">
+            Try Price Forecasting →
+        </div>
+    </a>
+    """, unsafe_allow_html=True)
+
+st.markdown('</div>', unsafe_allow_html=True)
+
+# ────────────────────────────────────────────────
+# Footer / Disclaimer
+# ────────────────────────────────────────────────
 st.markdown("""
 <div class="footer">
-⚠️ Disclaimer: This application is for educational purposes only and does not constitute financial advice.
+    ⚠️ This platform is created for educational and research purposes only.<br>
+    Not financial advice — always conduct your own due diligence.
+    <br><br>
+    Built with Streamlit • Data from Yahoo Finance • 2025–2026
 </div>
 """, unsafe_allow_html=True)
